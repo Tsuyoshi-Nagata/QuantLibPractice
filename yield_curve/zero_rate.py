@@ -11,6 +11,16 @@ def print_curve(xlist, ylist, precision=3):
         print(x,"\t\t", round(y, precision))
     print ("----------------------")
 
+def print_discount(xlist, ylist, precision=3):
+    """
+    Method to print curve in a nice format
+    """
+    print ("----------------------")
+    print ("Maturities\tDiscount")
+    print ("----------------------")
+    for x,y in zip(xlist, ylist):
+        print(x,"\t\t", round(y, precision))
+    print ("----------------------")
 
 
 # Deposit rates
@@ -91,17 +101,22 @@ yieldcurve = ql.PiecewiseLogCubicDiscount(calc_date,
 # get spot rates
 spots = []
 tenors = []
+discs = []
 for d in yieldcurve.dates():
     yrs = day_count.yearFraction(calc_date, d)
     compounding = ql.Compounded
     freq = ql.Semiannual
     zero_rate = yieldcurve.zeroRate(yrs, compounding, freq)
+    disc = yieldcurve.discount(d)
+    
     tenors.append(yrs)
     eq_rate = zero_rate.equivalentRate(day_count,
                                        compounding,
                                        freq,
                                        calc_date,
                                        d).rate()
+    discs.append(disc)
     spots.append(100*eq_rate)
-
+    
+print_discount(tenors,discs)
 print_curve(tenors,spots)
