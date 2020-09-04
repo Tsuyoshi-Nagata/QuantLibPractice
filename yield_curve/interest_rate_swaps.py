@@ -9,7 +9,7 @@ day_count = ql.Actual365Fixed()
 
 
 #追加
-calculation_date = ql.Date(20, 10, 2015)
+calculation_date = ql.Date(4, 9, 2020)
 
 discount_curve = ql.YieldTermStructureHandle(
     ql.FlatForward(calculation_date, risk_free_rate, day_count)
